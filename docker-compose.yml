@@ -8,10 +8,17 @@ services:
       MYSQL_DATABASE: ecomarket
       MYSQL_USER: ecomarket
       MYSQL_PASSWORD: ecomarket
+    # Publicamos en el puerto 3307 del host para no chocar con una instalacion
+    # local de MySQL que ya este escuchando en el 3306. Dentro del contenedor
+    # MySQL sigue usando el 3306.
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - ecomarket_mysql_data:/var/lib/mysql
+      # Se ejecuta solo la primera vez (volumen vacio): asegura que el usuario
+      # de la app pueda conectarse desde cualquier host, incluido 'localhost'
+      # (Docker Desktop etiqueta la conexion TCP del host como localhost).
+      - ./docker/mysql-init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
       interval: 10s
