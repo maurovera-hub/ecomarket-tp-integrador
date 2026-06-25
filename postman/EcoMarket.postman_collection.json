@@ -1,0 +1,220 @@
+{
+  "info": {
+    "name": "EcoMarket API",
+    "_postman_id": "ecomarket-collection-0001",
+    "description": "Coleccion de la API REST de EcoMarket: productos, carrito y ordenes. Configurar la variable {{baseUrl}} (por defecto http://localhost:8080). Las variables {{productoId}}, {{itemId}} y {{ordenId}} se completan a mano o desde las respuestas.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "productoId", "value": "1" },
+    { "key": "itemId", "value": "1" },
+    { "key": "ordenId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Productos",
+      "item": [
+        {
+          "name": "Listar productos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos"]
+            },
+            "description": "Devuelve el catalogo completo. 200 OK."
+          }
+        },
+        {
+          "name": "Obtener producto por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "{{productoId}}"]
+            },
+            "description": "Detalle de un producto. 200 OK / 404 si no existe."
+          }
+        },
+        {
+          "name": "Crear producto",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Cargador solar portatil\",\n  \"descripcion\": \"Panel solar plegable con salida USB, ideal para viajes.\",\n  \"precio\": 18500.00,\n  \"categoria\": \"Tecnologia\",\n  \"stock\": 40,\n  \"imagenUrl\": \"https://example.com/cargador-solar.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos"]
+            },
+            "description": "Crea un producto. 201 Created con header Location. 400 si los datos son invalidos."
+          }
+        },
+        {
+          "name": "Actualizar producto",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Cargador solar portatil PRO\",\n  \"descripcion\": \"Version mejorada con doble salida USB-C.\",\n  \"precio\": 21900.00,\n  \"categoria\": \"Tecnologia\",\n  \"stock\": 35,\n  \"imagenUrl\": \"https://example.com/cargador-solar-pro.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "{{productoId}}"]
+            },
+            "description": "Modifica un producto existente. 200 OK / 404 si no existe."
+          }
+        },
+        {
+          "name": "Eliminar producto",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "{{productoId}}"]
+            },
+            "description": "Elimina un producto. 204 No Content / 404 si no existe."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Carrito",
+      "item": [
+        {
+          "name": "Ver carrito",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/carrito",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "carrito"]
+            },
+            "description": "Devuelve el carrito activo con sus items y el total calculado. 200 OK."
+          }
+        },
+        {
+          "name": "Agregar item al carrito",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productoId\": 1,\n  \"cantidad\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/carrito/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "carrito", "items"]
+            },
+            "description": "Agrega un producto al carrito (si ya estaba, acumula cantidad). 201 Created. 404 si el producto no existe. 400 si la cantidad es invalida."
+          }
+        },
+        {
+          "name": "Actualizar cantidad de un item",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cantidad\": 5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/carrito/items/{{itemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "carrito", "items", "{{itemId}}"]
+            },
+            "description": "Cambia la cantidad de una linea del carrito. 200 OK / 404 si el item no existe."
+          }
+        },
+        {
+          "name": "Eliminar item del carrito",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/carrito/items/{{itemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "carrito", "items", "{{itemId}}"]
+            },
+            "description": "Quita una linea del carrito. 200 OK / 404 si el item no existe."
+          }
+        },
+        {
+          "name": "Vaciar carrito",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/carrito",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "carrito"]
+            },
+            "description": "Elimina todos los items del carrito. 200 OK."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ordenes",
+      "item": [
+        {
+          "name": "Confirmar orden",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mensaje\": \"Por favor entregar despues de las 18hs. Gracias!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ordenes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ordenes"]
+            },
+            "description": "Confirma el carrito como orden de compra (registra fecha/hora y mensaje, y vacia el carrito). 201 Created. 400 si el carrito esta vacio."
+          }
+        },
+        {
+          "name": "Historial de ordenes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ordenes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ordenes"]
+            },
+            "description": "Lista las ordenes confirmadas, de la mas reciente a la mas antigua. 200 OK."
+          }
+        },
+        {
+          "name": "Obtener orden por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ordenes/{{ordenId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ordenes", "{{ordenId}}"]
+            },
+            "description": "Detalle de una orden. 200 OK / 404 si no existe."
+          }
+        }
+      ]
+    }
+  ]
+}
