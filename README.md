@@ -160,12 +160,6 @@ npm test
 - **Manejo de errores:** centralizado con `@RestControllerAdvice`, devolviendo respuestas JSON consistentes con códigos HTTP apropiados (404 para recursos no encontrados, 400 para errores de negocio como confirmar un carrito vacío).
 - **Frontend:** componentes funcionales con `useState`/`useEffect`, flujo de datos unidireccional (props hacia los hijos, callbacks hacia el padre), con manejo visible de estados de carga y error.
 
-## Uso de inteligencia artificial
-
-Este proyecto fue desarrollado con asistencia de **Claude (Anthropic)**, utilizando Claude Code para la generación de código de backend y frontend, y Claude (claude.ai) para la planificación del trabajo, la resolución de problemas de configuración de entorno (Docker, autenticación de Git) y la redacción de esta documentación.
-
-El detalle de qué partes fueron generadas con asistencia de IA, y de qué manera, se encuentra documentado en el informe técnico entregado junto a este proyecto, sección "Uso de Inteligencia Artificial".
-
 ## Documentación adicional
 
 El informe técnico completo (arquitectura, modelo de datos, diseño de API, integración, conclusiones) se entrega junto a este repositorio como archivo PDF, fuera del control de versiones.
