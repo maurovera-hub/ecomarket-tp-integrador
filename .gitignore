@@ -39,3 +39,7 @@ dist/
 .vscode/
 *.iml
 .DS_Store
+
+# Build output y config local
+frontend/dist/
+.claude/
